@@ -40,7 +40,7 @@ export declare const FACTORY_ADDRESS: {
 export declare const ROUTER_ADDRESS: {
     [chainId in ChainId]: string;
 };
-export declare const SUSHI_ADDRESS: {
+export declare const BAO_ADDRESS: {
     [chainId in ChainId]: string;
 };
 export declare const MASTERCHEF_ADDRESS: {
