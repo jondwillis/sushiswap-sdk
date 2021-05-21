@@ -1,19 +1,23 @@
-import JSBI from 'jsbi';
-export { default as JSBI } from 'jsbi';
-import invariant from 'tiny-invariant';
-import warning from 'tiny-warning';
-import { getAddress, getCreate2Address } from '@ethersproject/address';
-import _Big from 'big.js';
-import toFormat from 'toformat';
-import _Decimal from 'decimal.js-light';
-import { keccak256, pack } from '@ethersproject/solidity';
-import { Contract } from '@ethersproject/contracts';
-import { getNetwork } from '@ethersproject/networks';
-import { getDefaultProvider } from '@ethersproject/providers';
-import IUniswapV2Pair from '@uniswap/v2-core/build/IUniswapV2Pair.json';
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var JSBI = _interopDefault(require('jsbi'));
+var invariant = _interopDefault(require('tiny-invariant'));
+var warning = _interopDefault(require('tiny-warning'));
+var address = require('@ethersproject/address');
+var _Big = _interopDefault(require('big.js'));
+var toFormat = _interopDefault(require('toformat'));
+var _Decimal = _interopDefault(require('decimal.js-light'));
+var solidity = require('@ethersproject/solidity');
+var contracts = require('@ethersproject/contracts');
+var networks = require('@ethersproject/networks');
+var providers = require('@ethersproject/providers');
+var IUniswapV2Pair = _interopDefault(require('@uniswap/v2-core/build/IUniswapV2Pair.json'));
 
 var _FACTORY_ADDRESS, _ROUTER_ADDRESS, _SUSHI_ADDRESS, _MASTERCHEF_ADDRESS, _BAR_ADDRESS, _MAKER_ADDRESS, _TIMELOCK_ADDRESS, _SOLIDITY_TYPE_MAXIMA;
-var ChainId;
 
 (function (ChainId) {
   ChainId[ChainId["MAINNET"] = 1] = "MAINNET";
@@ -38,31 +42,27 @@ var ChainId;
   ChainId[ChainId["HARMONY_TESTNET"] = 1666700000] = "HARMONY_TESTNET";
   ChainId[ChainId["OKEX"] = 66] = "OKEX";
   ChainId[ChainId["OKEX_TESTNET"] = 65] = "OKEX_TESTNET";
-})(ChainId || (ChainId = {}));
-
-var TradeType;
+})(exports.ChainId || (exports.ChainId = {}));
 
 (function (TradeType) {
   TradeType[TradeType["EXACT_INPUT"] = 0] = "EXACT_INPUT";
   TradeType[TradeType["EXACT_OUTPUT"] = 1] = "EXACT_OUTPUT";
-})(TradeType || (TradeType = {}));
-
-var Rounding;
+})(exports.TradeType || (exports.TradeType = {}));
 
 (function (Rounding) {
   Rounding[Rounding["ROUND_DOWN"] = 0] = "ROUND_DOWN";
   Rounding[Rounding["ROUND_HALF_UP"] = 1] = "ROUND_HALF_UP";
   Rounding[Rounding["ROUND_UP"] = 2] = "ROUND_UP";
-})(Rounding || (Rounding = {}));
+})(exports.Rounding || (exports.Rounding = {}));
 
 var INIT_CODE_HASH = '0xe18a34eb0e04b04f7a0ac29a6e80748dca96319b42c54d679cb821dca90c6303';
-var FACTORY_ADDRESS = (_FACTORY_ADDRESS = {}, _FACTORY_ADDRESS[ChainId.MAINNET] = '0xC0AEe478e3658e2610c5F7A4A2E1777cE9e4f2Ac', _FACTORY_ADDRESS[ChainId.ROPSTEN] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[ChainId.RINKEBY] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[ChainId.GÖRLI] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[ChainId.KOVAN] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[ChainId.FANTOM] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[ChainId.FANTOM_TESTNET] = '', _FACTORY_ADDRESS[ChainId.MATIC] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[ChainId.MATIC_TESTNET] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[ChainId.XDAI] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[ChainId.BSC] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[ChainId.BSC_TESTNET] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[ChainId.ARBITRUM] = '', _FACTORY_ADDRESS[ChainId.MOONBASE] = '0x2Ce3F07dD4c62b56a502E223A7cBE38b1d77A1b5', _FACTORY_ADDRESS[ChainId.AVALANCHE] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[ChainId.FUJI] = '0xd00ae08403B9bbb9124bB305C09058E32C39A48c', _FACTORY_ADDRESS[ChainId.HECO] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[ChainId.HECO_TESTNET] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[ChainId.HARMONY] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[ChainId.HARMONY_TESTNET] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[ChainId.OKEX] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[ChainId.OKEX_TESTNET] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS);
-var ROUTER_ADDRESS = (_ROUTER_ADDRESS = {}, _ROUTER_ADDRESS[ChainId.MAINNET] = '0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F', _ROUTER_ADDRESS[ChainId.RINKEBY] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[ChainId.ROPSTEN] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[ChainId.GÖRLI] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[ChainId.KOVAN] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[ChainId.FANTOM] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[ChainId.FANTOM_TESTNET] = '', _ROUTER_ADDRESS[ChainId.MATIC] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[ChainId.MATIC_TESTNET] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[ChainId.XDAI] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[ChainId.BSC] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[ChainId.BSC_TESTNET] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[ChainId.ARBITRUM] = '', _ROUTER_ADDRESS[ChainId.MOONBASE] = '0xeB5c2BB5E83B51d83F3534Ae21E84336B8B376ef', _ROUTER_ADDRESS[ChainId.AVALANCHE] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[ChainId.FUJI] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[ChainId.HECO] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[ChainId.HECO_TESTNET] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[ChainId.HARMONY] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[ChainId.HARMONY_TESTNET] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[ChainId.OKEX] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[ChainId.OKEX_TESTNET] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS);
-var SUSHI_ADDRESS = (_SUSHI_ADDRESS = {}, _SUSHI_ADDRESS[ChainId.MAINNET] = '0x6B3595068778DD592e39A122f4f5a5cF09C90fE2', _SUSHI_ADDRESS[ChainId.ROPSTEN] = '0x0769fd68dFb93167989C6f7254cd0D766Fb2841F', _SUSHI_ADDRESS[ChainId.RINKEBY] = '0x0769fd68dFb93167989C6f7254cd0D766Fb2841F', _SUSHI_ADDRESS[ChainId.GÖRLI] = '0x0769fd68dFb93167989C6f7254cd0D766Fb2841F', _SUSHI_ADDRESS[ChainId.KOVAN] = '0x0769fd68dFb93167989C6f7254cd0D766Fb2841F', _SUSHI_ADDRESS[ChainId.FANTOM] = '', _SUSHI_ADDRESS[ChainId.FANTOM_TESTNET] = '', _SUSHI_ADDRESS[ChainId.MATIC] = '', _SUSHI_ADDRESS[ChainId.MATIC_TESTNET] = '', _SUSHI_ADDRESS[ChainId.XDAI] = '', _SUSHI_ADDRESS[ChainId.BSC] = '', _SUSHI_ADDRESS[ChainId.BSC_TESTNET] = '', _SUSHI_ADDRESS[ChainId.ARBITRUM] = '', _SUSHI_ADDRESS[ChainId.MOONBASE] = '', _SUSHI_ADDRESS[ChainId.AVALANCHE] = '', _SUSHI_ADDRESS[ChainId.FUJI] = '', _SUSHI_ADDRESS[ChainId.HECO] = '', _SUSHI_ADDRESS[ChainId.HECO_TESTNET] = '', _SUSHI_ADDRESS[ChainId.HARMONY] = '', _SUSHI_ADDRESS[ChainId.HARMONY_TESTNET] = '', _SUSHI_ADDRESS[ChainId.OKEX] = '', _SUSHI_ADDRESS[ChainId.OKEX_TESTNET] = '', _SUSHI_ADDRESS);
-var MASTERCHEF_ADDRESS = (_MASTERCHEF_ADDRESS = {}, _MASTERCHEF_ADDRESS[ChainId.MAINNET] = '0xc2EdaD668740f1aA35E4D8f227fB8E17dcA888Cd', _MASTERCHEF_ADDRESS[ChainId.ROPSTEN] = '0x80C7DD17B01855a6D2347444a0FCC36136a314de', _MASTERCHEF_ADDRESS[ChainId.RINKEBY] = '0x80C7DD17B01855a6D2347444a0FCC36136a314de', _MASTERCHEF_ADDRESS[ChainId.GÖRLI] = '0x80C7DD17B01855a6D2347444a0FCC36136a314de', _MASTERCHEF_ADDRESS[ChainId.KOVAN] = '0x80C7DD17B01855a6D2347444a0FCC36136a314de', _MASTERCHEF_ADDRESS[ChainId.FANTOM] = '', _MASTERCHEF_ADDRESS[ChainId.FANTOM_TESTNET] = '', _MASTERCHEF_ADDRESS[ChainId.MATIC] = '', _MASTERCHEF_ADDRESS[ChainId.MATIC_TESTNET] = '', _MASTERCHEF_ADDRESS[ChainId.XDAI] = '', _MASTERCHEF_ADDRESS[ChainId.BSC] = '', _MASTERCHEF_ADDRESS[ChainId.BSC_TESTNET] = '', _MASTERCHEF_ADDRESS[ChainId.ARBITRUM] = '', _MASTERCHEF_ADDRESS[ChainId.MOONBASE] = '', _MASTERCHEF_ADDRESS[ChainId.AVALANCHE] = '', _MASTERCHEF_ADDRESS[ChainId.FUJI] = '', _MASTERCHEF_ADDRESS[ChainId.HECO] = '', _MASTERCHEF_ADDRESS[ChainId.HECO_TESTNET] = '', _MASTERCHEF_ADDRESS[ChainId.HARMONY] = '', _MASTERCHEF_ADDRESS[ChainId.HARMONY_TESTNET] = '', _MASTERCHEF_ADDRESS[ChainId.OKEX] = '', _MASTERCHEF_ADDRESS[ChainId.OKEX_TESTNET] = '', _MASTERCHEF_ADDRESS);
-var BAR_ADDRESS = (_BAR_ADDRESS = {}, _BAR_ADDRESS[ChainId.MAINNET] = '0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272', _BAR_ADDRESS[ChainId.ROPSTEN] = '0x1be211D8DA40BC0ae8719c6663307Bfc987b1d6c', _BAR_ADDRESS[ChainId.RINKEBY] = '0x1be211D8DA40BC0ae8719c6663307Bfc987b1d6c', _BAR_ADDRESS[ChainId.GÖRLI] = '0x1be211D8DA40BC0ae8719c6663307Bfc987b1d6c', _BAR_ADDRESS[ChainId.KOVAN] = '0x1be211D8DA40BC0ae8719c6663307Bfc987b1d6c', _BAR_ADDRESS[ChainId.FANTOM] = '', _BAR_ADDRESS[ChainId.FANTOM_TESTNET] = '', _BAR_ADDRESS[ChainId.MATIC] = '', _BAR_ADDRESS[ChainId.MATIC_TESTNET] = '', _BAR_ADDRESS[ChainId.XDAI] = '', _BAR_ADDRESS[ChainId.BSC] = '', _BAR_ADDRESS[ChainId.BSC_TESTNET] = '', _BAR_ADDRESS[ChainId.ARBITRUM] = '', _BAR_ADDRESS[ChainId.MOONBASE] = '', _BAR_ADDRESS[ChainId.AVALANCHE] = '', _BAR_ADDRESS[ChainId.FUJI] = '', _BAR_ADDRESS[ChainId.HECO] = '', _BAR_ADDRESS[ChainId.HECO_TESTNET] = '', _BAR_ADDRESS[ChainId.HARMONY] = '', _BAR_ADDRESS[ChainId.HARMONY_TESTNET] = '', _BAR_ADDRESS[ChainId.OKEX] = '', _BAR_ADDRESS[ChainId.OKEX_TESTNET] = '', _BAR_ADDRESS);
-var MAKER_ADDRESS = (_MAKER_ADDRESS = {}, _MAKER_ADDRESS[ChainId.MAINNET] = '0xE11fc0B43ab98Eb91e9836129d1ee7c3Bc95df50', _MAKER_ADDRESS[ChainId.ROPSTEN] = '0x1b9d177CcdeA3c79B6c8F40761fc8Dc9d0500EAa', _MAKER_ADDRESS[ChainId.RINKEBY] = '0x1b9d177CcdeA3c79B6c8F40761fc8Dc9d0500EAa', _MAKER_ADDRESS[ChainId.GÖRLI] = '0x1b9d177CcdeA3c79B6c8F40761fc8Dc9d0500EAa', _MAKER_ADDRESS[ChainId.KOVAN] = '0x1b9d177CcdeA3c79B6c8F40761fc8Dc9d0500EAa', _MAKER_ADDRESS[ChainId.FANTOM] = '', _MAKER_ADDRESS[ChainId.FANTOM_TESTNET] = '', _MAKER_ADDRESS[ChainId.MATIC] = '', _MAKER_ADDRESS[ChainId.MATIC_TESTNET] = '', _MAKER_ADDRESS[ChainId.XDAI] = '', _MAKER_ADDRESS[ChainId.BSC] = '', _MAKER_ADDRESS[ChainId.BSC_TESTNET] = '', _MAKER_ADDRESS[ChainId.ARBITRUM] = '', _MAKER_ADDRESS[ChainId.MOONBASE] = '', _MAKER_ADDRESS[ChainId.AVALANCHE] = '', _MAKER_ADDRESS[ChainId.FUJI] = '', _MAKER_ADDRESS[ChainId.HECO] = '', _MAKER_ADDRESS[ChainId.HECO_TESTNET] = '', _MAKER_ADDRESS[ChainId.HARMONY] = '', _MAKER_ADDRESS[ChainId.HARMONY_TESTNET] = '', _MAKER_ADDRESS[ChainId.OKEX] = '', _MAKER_ADDRESS[ChainId.OKEX_TESTNET] = '', _MAKER_ADDRESS);
-var TIMELOCK_ADDRESS = (_TIMELOCK_ADDRESS = {}, _TIMELOCK_ADDRESS[ChainId.MAINNET] = '0x9a8541Ddf3a932a9A922B607e9CF7301f1d47bD1', _TIMELOCK_ADDRESS[ChainId.ROPSTEN] = '', _TIMELOCK_ADDRESS[ChainId.RINKEBY] = '', _TIMELOCK_ADDRESS[ChainId.GÖRLI] = '', _TIMELOCK_ADDRESS[ChainId.KOVAN] = '', _TIMELOCK_ADDRESS[ChainId.FANTOM] = '', _TIMELOCK_ADDRESS[ChainId.FANTOM_TESTNET] = '', _TIMELOCK_ADDRESS[ChainId.MATIC] = '', _TIMELOCK_ADDRESS[ChainId.MATIC_TESTNET] = '', _TIMELOCK_ADDRESS[ChainId.XDAI] = '', _TIMELOCK_ADDRESS[ChainId.BSC] = '', _TIMELOCK_ADDRESS[ChainId.BSC_TESTNET] = '', _TIMELOCK_ADDRESS[ChainId.ARBITRUM] = '', _TIMELOCK_ADDRESS[ChainId.MOONBASE] = '', _TIMELOCK_ADDRESS[ChainId.AVALANCHE] = '', _TIMELOCK_ADDRESS[ChainId.FUJI] = '', _TIMELOCK_ADDRESS[ChainId.HECO] = '', _TIMELOCK_ADDRESS[ChainId.HECO_TESTNET] = '', _TIMELOCK_ADDRESS[ChainId.HARMONY] = '', _TIMELOCK_ADDRESS[ChainId.HARMONY_TESTNET] = '', _TIMELOCK_ADDRESS[ChainId.OKEX] = '', _TIMELOCK_ADDRESS[ChainId.OKEX_TESTNET] = '', _TIMELOCK_ADDRESS);
+var FACTORY_ADDRESS = (_FACTORY_ADDRESS = {}, _FACTORY_ADDRESS[exports.ChainId.MAINNET] = '0xC0AEe478e3658e2610c5F7A4A2E1777cE9e4f2Ac', _FACTORY_ADDRESS[exports.ChainId.ROPSTEN] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[exports.ChainId.RINKEBY] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[exports.ChainId.GÖRLI] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[exports.ChainId.KOVAN] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[exports.ChainId.FANTOM] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[exports.ChainId.FANTOM_TESTNET] = '', _FACTORY_ADDRESS[exports.ChainId.MATIC] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[exports.ChainId.MATIC_TESTNET] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[exports.ChainId.XDAI] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[exports.ChainId.BSC] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[exports.ChainId.BSC_TESTNET] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[exports.ChainId.ARBITRUM] = '', _FACTORY_ADDRESS[exports.ChainId.MOONBASE] = '0x2Ce3F07dD4c62b56a502E223A7cBE38b1d77A1b5', _FACTORY_ADDRESS[exports.ChainId.AVALANCHE] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[exports.ChainId.FUJI] = '0xd00ae08403B9bbb9124bB305C09058E32C39A48c', _FACTORY_ADDRESS[exports.ChainId.HECO] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[exports.ChainId.HECO_TESTNET] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[exports.ChainId.HARMONY] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[exports.ChainId.HARMONY_TESTNET] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[exports.ChainId.OKEX] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS[exports.ChainId.OKEX_TESTNET] = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', _FACTORY_ADDRESS);
+var ROUTER_ADDRESS = (_ROUTER_ADDRESS = {}, _ROUTER_ADDRESS[exports.ChainId.MAINNET] = '0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F', _ROUTER_ADDRESS[exports.ChainId.RINKEBY] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[exports.ChainId.ROPSTEN] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[exports.ChainId.GÖRLI] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[exports.ChainId.KOVAN] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[exports.ChainId.FANTOM] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[exports.ChainId.FANTOM_TESTNET] = '', _ROUTER_ADDRESS[exports.ChainId.MATIC] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[exports.ChainId.MATIC_TESTNET] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[exports.ChainId.XDAI] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[exports.ChainId.BSC] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[exports.ChainId.BSC_TESTNET] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[exports.ChainId.ARBITRUM] = '', _ROUTER_ADDRESS[exports.ChainId.MOONBASE] = '0xeB5c2BB5E83B51d83F3534Ae21E84336B8B376ef', _ROUTER_ADDRESS[exports.ChainId.AVALANCHE] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[exports.ChainId.FUJI] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[exports.ChainId.HECO] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[exports.ChainId.HECO_TESTNET] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[exports.ChainId.HARMONY] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[exports.ChainId.HARMONY_TESTNET] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[exports.ChainId.OKEX] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS[exports.ChainId.OKEX_TESTNET] = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506', _ROUTER_ADDRESS);
+var SUSHI_ADDRESS = (_SUSHI_ADDRESS = {}, _SUSHI_ADDRESS[exports.ChainId.MAINNET] = '0x6B3595068778DD592e39A122f4f5a5cF09C90fE2', _SUSHI_ADDRESS[exports.ChainId.ROPSTEN] = '0x0769fd68dFb93167989C6f7254cd0D766Fb2841F', _SUSHI_ADDRESS[exports.ChainId.RINKEBY] = '0x0769fd68dFb93167989C6f7254cd0D766Fb2841F', _SUSHI_ADDRESS[exports.ChainId.GÖRLI] = '0x0769fd68dFb93167989C6f7254cd0D766Fb2841F', _SUSHI_ADDRESS[exports.ChainId.KOVAN] = '0x0769fd68dFb93167989C6f7254cd0D766Fb2841F', _SUSHI_ADDRESS[exports.ChainId.FANTOM] = '', _SUSHI_ADDRESS[exports.ChainId.FANTOM_TESTNET] = '', _SUSHI_ADDRESS[exports.ChainId.MATIC] = '', _SUSHI_ADDRESS[exports.ChainId.MATIC_TESTNET] = '', _SUSHI_ADDRESS[exports.ChainId.XDAI] = '', _SUSHI_ADDRESS[exports.ChainId.BSC] = '', _SUSHI_ADDRESS[exports.ChainId.BSC_TESTNET] = '', _SUSHI_ADDRESS[exports.ChainId.ARBITRUM] = '', _SUSHI_ADDRESS[exports.ChainId.MOONBASE] = '', _SUSHI_ADDRESS[exports.ChainId.AVALANCHE] = '', _SUSHI_ADDRESS[exports.ChainId.FUJI] = '', _SUSHI_ADDRESS[exports.ChainId.HECO] = '', _SUSHI_ADDRESS[exports.ChainId.HECO_TESTNET] = '', _SUSHI_ADDRESS[exports.ChainId.HARMONY] = '', _SUSHI_ADDRESS[exports.ChainId.HARMONY_TESTNET] = '', _SUSHI_ADDRESS[exports.ChainId.OKEX] = '', _SUSHI_ADDRESS[exports.ChainId.OKEX_TESTNET] = '', _SUSHI_ADDRESS);
+var MASTERCHEF_ADDRESS = (_MASTERCHEF_ADDRESS = {}, _MASTERCHEF_ADDRESS[exports.ChainId.MAINNET] = '0xc2EdaD668740f1aA35E4D8f227fB8E17dcA888Cd', _MASTERCHEF_ADDRESS[exports.ChainId.ROPSTEN] = '0x80C7DD17B01855a6D2347444a0FCC36136a314de', _MASTERCHEF_ADDRESS[exports.ChainId.RINKEBY] = '0x80C7DD17B01855a6D2347444a0FCC36136a314de', _MASTERCHEF_ADDRESS[exports.ChainId.GÖRLI] = '0x80C7DD17B01855a6D2347444a0FCC36136a314de', _MASTERCHEF_ADDRESS[exports.ChainId.KOVAN] = '0x80C7DD17B01855a6D2347444a0FCC36136a314de', _MASTERCHEF_ADDRESS[exports.ChainId.FANTOM] = '', _MASTERCHEF_ADDRESS[exports.ChainId.FANTOM_TESTNET] = '', _MASTERCHEF_ADDRESS[exports.ChainId.MATIC] = '', _MASTERCHEF_ADDRESS[exports.ChainId.MATIC_TESTNET] = '', _MASTERCHEF_ADDRESS[exports.ChainId.XDAI] = '', _MASTERCHEF_ADDRESS[exports.ChainId.BSC] = '', _MASTERCHEF_ADDRESS[exports.ChainId.BSC_TESTNET] = '', _MASTERCHEF_ADDRESS[exports.ChainId.ARBITRUM] = '', _MASTERCHEF_ADDRESS[exports.ChainId.MOONBASE] = '', _MASTERCHEF_ADDRESS[exports.ChainId.AVALANCHE] = '', _MASTERCHEF_ADDRESS[exports.ChainId.FUJI] = '', _MASTERCHEF_ADDRESS[exports.ChainId.HECO] = '', _MASTERCHEF_ADDRESS[exports.ChainId.HECO_TESTNET] = '', _MASTERCHEF_ADDRESS[exports.ChainId.HARMONY] = '', _MASTERCHEF_ADDRESS[exports.ChainId.HARMONY_TESTNET] = '', _MASTERCHEF_ADDRESS[exports.ChainId.OKEX] = '', _MASTERCHEF_ADDRESS[exports.ChainId.OKEX_TESTNET] = '', _MASTERCHEF_ADDRESS);
+var BAR_ADDRESS = (_BAR_ADDRESS = {}, _BAR_ADDRESS[exports.ChainId.MAINNET] = '0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272', _BAR_ADDRESS[exports.ChainId.ROPSTEN] = '0x1be211D8DA40BC0ae8719c6663307Bfc987b1d6c', _BAR_ADDRESS[exports.ChainId.RINKEBY] = '0x1be211D8DA40BC0ae8719c6663307Bfc987b1d6c', _BAR_ADDRESS[exports.ChainId.GÖRLI] = '0x1be211D8DA40BC0ae8719c6663307Bfc987b1d6c', _BAR_ADDRESS[exports.ChainId.KOVAN] = '0x1be211D8DA40BC0ae8719c6663307Bfc987b1d6c', _BAR_ADDRESS[exports.ChainId.FANTOM] = '', _BAR_ADDRESS[exports.ChainId.FANTOM_TESTNET] = '', _BAR_ADDRESS[exports.ChainId.MATIC] = '', _BAR_ADDRESS[exports.ChainId.MATIC_TESTNET] = '', _BAR_ADDRESS[exports.ChainId.XDAI] = '', _BAR_ADDRESS[exports.ChainId.BSC] = '', _BAR_ADDRESS[exports.ChainId.BSC_TESTNET] = '', _BAR_ADDRESS[exports.ChainId.ARBITRUM] = '', _BAR_ADDRESS[exports.ChainId.MOONBASE] = '', _BAR_ADDRESS[exports.ChainId.AVALANCHE] = '', _BAR_ADDRESS[exports.ChainId.FUJI] = '', _BAR_ADDRESS[exports.ChainId.HECO] = '', _BAR_ADDRESS[exports.ChainId.HECO_TESTNET] = '', _BAR_ADDRESS[exports.ChainId.HARMONY] = '', _BAR_ADDRESS[exports.ChainId.HARMONY_TESTNET] = '', _BAR_ADDRESS[exports.ChainId.OKEX] = '', _BAR_ADDRESS[exports.ChainId.OKEX_TESTNET] = '', _BAR_ADDRESS);
+var MAKER_ADDRESS = (_MAKER_ADDRESS = {}, _MAKER_ADDRESS[exports.ChainId.MAINNET] = '0xE11fc0B43ab98Eb91e9836129d1ee7c3Bc95df50', _MAKER_ADDRESS[exports.ChainId.ROPSTEN] = '0x1b9d177CcdeA3c79B6c8F40761fc8Dc9d0500EAa', _MAKER_ADDRESS[exports.ChainId.RINKEBY] = '0x1b9d177CcdeA3c79B6c8F40761fc8Dc9d0500EAa', _MAKER_ADDRESS[exports.ChainId.GÖRLI] = '0x1b9d177CcdeA3c79B6c8F40761fc8Dc9d0500EAa', _MAKER_ADDRESS[exports.ChainId.KOVAN] = '0x1b9d177CcdeA3c79B6c8F40761fc8Dc9d0500EAa', _MAKER_ADDRESS[exports.ChainId.FANTOM] = '', _MAKER_ADDRESS[exports.ChainId.FANTOM_TESTNET] = '', _MAKER_ADDRESS[exports.ChainId.MATIC] = '', _MAKER_ADDRESS[exports.ChainId.MATIC_TESTNET] = '', _MAKER_ADDRESS[exports.ChainId.XDAI] = '', _MAKER_ADDRESS[exports.ChainId.BSC] = '', _MAKER_ADDRESS[exports.ChainId.BSC_TESTNET] = '', _MAKER_ADDRESS[exports.ChainId.ARBITRUM] = '', _MAKER_ADDRESS[exports.ChainId.MOONBASE] = '', _MAKER_ADDRESS[exports.ChainId.AVALANCHE] = '', _MAKER_ADDRESS[exports.ChainId.FUJI] = '', _MAKER_ADDRESS[exports.ChainId.HECO] = '', _MAKER_ADDRESS[exports.ChainId.HECO_TESTNET] = '', _MAKER_ADDRESS[exports.ChainId.HARMONY] = '', _MAKER_ADDRESS[exports.ChainId.HARMONY_TESTNET] = '', _MAKER_ADDRESS[exports.ChainId.OKEX] = '', _MAKER_ADDRESS[exports.ChainId.OKEX_TESTNET] = '', _MAKER_ADDRESS);
+var TIMELOCK_ADDRESS = (_TIMELOCK_ADDRESS = {}, _TIMELOCK_ADDRESS[exports.ChainId.MAINNET] = '0x9a8541Ddf3a932a9A922B607e9CF7301f1d47bD1', _TIMELOCK_ADDRESS[exports.ChainId.ROPSTEN] = '', _TIMELOCK_ADDRESS[exports.ChainId.RINKEBY] = '', _TIMELOCK_ADDRESS[exports.ChainId.GÖRLI] = '', _TIMELOCK_ADDRESS[exports.ChainId.KOVAN] = '', _TIMELOCK_ADDRESS[exports.ChainId.FANTOM] = '', _TIMELOCK_ADDRESS[exports.ChainId.FANTOM_TESTNET] = '', _TIMELOCK_ADDRESS[exports.ChainId.MATIC] = '', _TIMELOCK_ADDRESS[exports.ChainId.MATIC_TESTNET] = '', _TIMELOCK_ADDRESS[exports.ChainId.XDAI] = '', _TIMELOCK_ADDRESS[exports.ChainId.BSC] = '', _TIMELOCK_ADDRESS[exports.ChainId.BSC_TESTNET] = '', _TIMELOCK_ADDRESS[exports.ChainId.ARBITRUM] = '', _TIMELOCK_ADDRESS[exports.ChainId.MOONBASE] = '', _TIMELOCK_ADDRESS[exports.ChainId.AVALANCHE] = '', _TIMELOCK_ADDRESS[exports.ChainId.FUJI] = '', _TIMELOCK_ADDRESS[exports.ChainId.HECO] = '', _TIMELOCK_ADDRESS[exports.ChainId.HECO_TESTNET] = '', _TIMELOCK_ADDRESS[exports.ChainId.HARMONY] = '', _TIMELOCK_ADDRESS[exports.ChainId.HARMONY_TESTNET] = '', _TIMELOCK_ADDRESS[exports.ChainId.OKEX] = '', _TIMELOCK_ADDRESS[exports.ChainId.OKEX_TESTNET] = '', _TIMELOCK_ADDRESS);
 var MINIMUM_LIQUIDITY = /*#__PURE__*/JSBI.BigInt(1000); // exports for internal consumption
 
 var ZERO = /*#__PURE__*/JSBI.BigInt(0);
@@ -301,17 +301,17 @@ var InsufficientInputAmountError = /*#__PURE__*/function (_Error2) {
 }( /*#__PURE__*/_wrapNativeSuper(Error));
 
 function validateSolidityTypeInstance(value, solidityType) {
-  !JSBI.greaterThanOrEqual(value, ZERO) ? process.env.NODE_ENV !== "production" ? invariant(false, value + " is not a " + solidityType + ".") : invariant(false) : void 0;
-  !JSBI.lessThanOrEqual(value, SOLIDITY_TYPE_MAXIMA[solidityType]) ? process.env.NODE_ENV !== "production" ? invariant(false, value + " is not a " + solidityType + ".") : invariant(false) : void 0;
+  !JSBI.greaterThanOrEqual(value, ZERO) ?  invariant(false, value + " is not a " + solidityType + ".")  : void 0;
+  !JSBI.lessThanOrEqual(value, SOLIDITY_TYPE_MAXIMA[solidityType]) ?  invariant(false, value + " is not a " + solidityType + ".")  : void 0;
 } // warns if addresses are not checksummed
 
-function validateAndParseAddress(address) {
+function validateAndParseAddress(address$1) {
   try {
-    var checksummedAddress = getAddress(address);
-    process.env.NODE_ENV !== "production" ? warning(address === checksummedAddress, address + " is not checksummed.") : void 0;
+    var checksummedAddress = address.getAddress(address$1);
+    "development" !== "production" ? warning(address$1 === checksummedAddress, address$1 + " is not checksummed.") : void 0;
     return checksummedAddress;
   } catch (error) {
-     process.env.NODE_ENV !== "production" ? invariant(false, address + " is not a valid address.") : invariant(false) ;
+      invariant(false, address$1 + " is not a valid address.")  ;
   }
 }
 function parseBigintIsh(bigintIsh) {
@@ -340,9 +340,9 @@ function sqrt(y) {
 // `maxSize` by removing the last item
 
 function sortedInsert(items, add, maxSize, comparator) {
-  !(maxSize > 0) ? process.env.NODE_ENV !== "production" ? invariant(false, 'MAX_SIZE_ZERO') : invariant(false) : void 0; // this is an invariant because the interface cannot return multiple removed items if items.length exceeds maxSize
+  !(maxSize > 0) ?  invariant(false, 'MAX_SIZE_ZERO')  : void 0; // this is an invariant because the interface cannot return multiple removed items if items.length exceeds maxSize
 
-  !(items.length <= maxSize) ? process.env.NODE_ENV !== "production" ? invariant(false, 'ITEMS_SIZE') : invariant(false) : void 0; // short circuit first item add
+  !(items.length <= maxSize) ?  invariant(false, 'ITEMS_SIZE')  : void 0; // short circuit first item add
 
   if (items.length === 0) {
     items.push(add);
@@ -456,7 +456,7 @@ Currency.AVAX = /*#__PURE__*/new Currency(18, 'AVAX', 'Avalanche');
 Currency.HT = /*#__PURE__*/new Currency(18, 'HT', 'Heco Token');
 Currency.ONE = /*#__PURE__*/new Currency(18, 'ONE', 'Harmony');
 Currency.OKT = /*#__PURE__*/new Currency(18, 'OKT', 'OKExChain');
-Currency.NATIVE = (_Currency$NATIVE = {}, _Currency$NATIVE[ChainId.MAINNET] = Currency.ETHER, _Currency$NATIVE[ChainId.ROPSTEN] = Currency.ETHER, _Currency$NATIVE[ChainId.RINKEBY] = Currency.ETHER, _Currency$NATIVE[ChainId.GÖRLI] = Currency.ETHER, _Currency$NATIVE[ChainId.KOVAN] = Currency.ETHER, _Currency$NATIVE[ChainId.FANTOM] = Currency.FTM, _Currency$NATIVE[ChainId.FANTOM_TESTNET] = Currency.FTM, _Currency$NATIVE[ChainId.MATIC] = Currency.MATIC, _Currency$NATIVE[ChainId.MATIC_TESTNET] = Currency.MATIC, _Currency$NATIVE[ChainId.XDAI] = Currency.XDAI, _Currency$NATIVE[ChainId.BSC] = Currency.BNB, _Currency$NATIVE[ChainId.BSC_TESTNET] = Currency.BNB, _Currency$NATIVE[ChainId.ARBITRUM] = Currency.ETHER, _Currency$NATIVE[ChainId.MOONBASE] = Currency.GLMR, _Currency$NATIVE[ChainId.AVALANCHE] = Currency.AVAX, _Currency$NATIVE[ChainId.FUJI] = Currency.AVAX, _Currency$NATIVE[ChainId.HECO] = Currency.HT, _Currency$NATIVE[ChainId.HECO_TESTNET] = Currency.HT, _Currency$NATIVE[ChainId.HARMONY] = Currency.ONE, _Currency$NATIVE[ChainId.HARMONY_TESTNET] = Currency.ONE, _Currency$NATIVE[ChainId.OKEX] = Currency.OKT, _Currency$NATIVE[ChainId.OKEX_TESTNET] = Currency.OKT, _Currency$NATIVE);
+Currency.NATIVE = (_Currency$NATIVE = {}, _Currency$NATIVE[exports.ChainId.MAINNET] = Currency.ETHER, _Currency$NATIVE[exports.ChainId.ROPSTEN] = Currency.ETHER, _Currency$NATIVE[exports.ChainId.RINKEBY] = Currency.ETHER, _Currency$NATIVE[exports.ChainId.GÖRLI] = Currency.ETHER, _Currency$NATIVE[exports.ChainId.KOVAN] = Currency.ETHER, _Currency$NATIVE[exports.ChainId.FANTOM] = Currency.FTM, _Currency$NATIVE[exports.ChainId.FANTOM_TESTNET] = Currency.FTM, _Currency$NATIVE[exports.ChainId.MATIC] = Currency.MATIC, _Currency$NATIVE[exports.ChainId.MATIC_TESTNET] = Currency.MATIC, _Currency$NATIVE[exports.ChainId.XDAI] = Currency.XDAI, _Currency$NATIVE[exports.ChainId.BSC] = Currency.BNB, _Currency$NATIVE[exports.ChainId.BSC_TESTNET] = Currency.BNB, _Currency$NATIVE[exports.ChainId.ARBITRUM] = Currency.ETHER, _Currency$NATIVE[exports.ChainId.MOONBASE] = Currency.GLMR, _Currency$NATIVE[exports.ChainId.AVALANCHE] = Currency.AVAX, _Currency$NATIVE[exports.ChainId.FUJI] = Currency.AVAX, _Currency$NATIVE[exports.ChainId.HECO] = Currency.HT, _Currency$NATIVE[exports.ChainId.HECO_TESTNET] = Currency.HT, _Currency$NATIVE[exports.ChainId.HARMONY] = Currency.ONE, _Currency$NATIVE[exports.ChainId.HARMONY_TESTNET] = Currency.ONE, _Currency$NATIVE[exports.ChainId.OKEX] = Currency.OKT, _Currency$NATIVE[exports.ChainId.OKEX_TESTNET] = Currency.OKT, _Currency$NATIVE);
 var ETHER = Currency.ETHER; // const NATIVE_CURRENCY = {
 
 var _WETH;
@@ -500,8 +500,8 @@ var Token = /*#__PURE__*/function (_Currency) {
   ;
 
   _proto.sortsBefore = function sortsBefore(other) {
-    !(this.chainId === other.chainId) ? process.env.NODE_ENV !== "production" ? invariant(false, 'CHAIN_IDS') : invariant(false) : void 0;
-    !(this.address !== other.address) ? process.env.NODE_ENV !== "production" ? invariant(false, 'ADDRESSES') : invariant(false) : void 0;
+    !(this.chainId === other.chainId) ?  invariant(false, 'CHAIN_IDS')  : void 0;
+    !(this.address !== other.address) ?  invariant(false, 'ADDRESSES')  : void 0;
     return this.address.toLowerCase() < other.address.toLowerCase();
   };
 
@@ -524,13 +524,13 @@ function currencyEquals(currencyA, currencyB) {
 } // In reality this is a map of the wrapped version of the native token for a given network.
 // TODO: Rename to WNATIVE for sanity
 
-var WETH = (_WETH = {}, _WETH[ChainId.MAINNET] = /*#__PURE__*/new Token(ChainId.MAINNET, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', 18, 'WETH', 'Wrapped Ether'), _WETH[ChainId.ROPSTEN] = /*#__PURE__*/new Token(ChainId.ROPSTEN, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WETH[ChainId.RINKEBY] = /*#__PURE__*/new Token(ChainId.RINKEBY, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WETH[ChainId.GÖRLI] = /*#__PURE__*/new Token(ChainId.GÖRLI, '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6', 18, 'WETH', 'Wrapped Ether'), _WETH[ChainId.KOVAN] = /*#__PURE__*/new Token(ChainId.KOVAN, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WETH', 'Wrapped Ether'), _WETH[ChainId.FANTOM] = /*#__PURE__*/new Token(ChainId.FANTOM, '0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83', 18, 'WFTM', 'Wrapped FTM'), _WETH[ChainId.FANTOM_TESTNET] = /*#__PURE__*/new Token(ChainId.FANTOM_TESTNET, '0xf1277d1Ed8AD466beddF92ef448A132661956621', 18, 'FTM', 'Wrapped FTM'), _WETH[ChainId.MATIC] = /*#__PURE__*/new Token(ChainId.MATIC, '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', 18, 'WMATIC', 'Wrapped Matic'), _WETH[ChainId.MATIC_TESTNET] = /*#__PURE__*/new Token(ChainId.MATIC_TESTNET, '0x5B67676a984807a212b1c59eBFc9B3568a474F0a', 18, 'WMATIC', 'Wrapped Matic'), _WETH[ChainId.XDAI] = /*#__PURE__*/new Token(ChainId.XDAI, '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d', 18, 'WXDAI', 'Wrapped xDai'), _WETH[ChainId.BSC] = /*#__PURE__*/new Token(ChainId.BSC, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 18, 'WBNB', 'Wrapped BNB'), _WETH[ChainId.BSC_TESTNET] = /*#__PURE__*/new Token(ChainId.BSC_TESTNET, '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd', 18, 'WBNB', 'Wrapped BNB'), _WETH[ChainId.ARBITRUM] = /*#__PURE__*/new Token(ChainId.ARBITRUM, '0xf8456e5e6A225C2C1D74D8C9a4cB2B1d5dc1153b', 18, 'WETH', 'Wrapped Ether'), _WETH[ChainId.MOONBASE] = /*#__PURE__*/new Token(ChainId.MOONBASE, '0xe73763DB808ecCDC0E36bC8E32510ED126910394', 18, 'WETH', 'Wrapped Ether'), _WETH[ChainId.AVALANCHE] = /*#__PURE__*/new Token(ChainId.AVALANCHE, '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7', 18, 'WAVAX', 'Wrapped AVAX'), _WETH[ChainId.FUJI] = /*#__PURE__*/new Token(ChainId.FUJI, '0xd00ae08403B9bbb9124bB305C09058E32C39A48c', 18, 'WAVAX', 'Wrapped AVAX'), _WETH[ChainId.HECO] = /*#__PURE__*/new Token(ChainId.HECO, '0x5545153CCFcA01fbd7Dd11C0b23ba694D9509A6F', 18, 'WHT', 'Wrapped HT'), _WETH[ChainId.HECO_TESTNET] = /*#__PURE__*/new Token(ChainId.HECO_TESTNET, '0x5B2DA6F42CA09C77D577a12BeaD0446148830687', 18, 'WHT', 'Wrapped HT'), _WETH[ChainId.HARMONY] = /*#__PURE__*/new Token(ChainId.HARMONY, '0xcF664087a5bB0237a0BAd6742852ec6c8d69A27a', 18, 'WONE', 'Wrapped ONE'), _WETH[ChainId.HARMONY_TESTNET] = /*#__PURE__*/new Token(ChainId.HARMONY_TESTNET, '0x7a2afac38517d512E55C0bCe3b6805c10a04D60F', 18, 'WONE', 'Wrapped ONE'), _WETH[ChainId.OKEX] = /*#__PURE__*/new Token(ChainId.OKEX, '0x8F8526dbfd6E38E3D8307702cA8469Bae6C56C15', 18, 'WOKT', 'Wrapped OKExChain'), _WETH[ChainId.OKEX_TESTNET] = /*#__PURE__*/new Token(ChainId.OKEX_TESTNET, '0x2219845942d28716c0F7C605765fABDcA1a7d9E0', 18, 'WOKT', 'Wrapped OKExChain'), _WETH);
+var WETH = (_WETH = {}, _WETH[exports.ChainId.MAINNET] = /*#__PURE__*/new Token(exports.ChainId.MAINNET, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.ROPSTEN] = /*#__PURE__*/new Token(exports.ChainId.ROPSTEN, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.RINKEBY] = /*#__PURE__*/new Token(exports.ChainId.RINKEBY, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.GÖRLI] = /*#__PURE__*/new Token(exports.ChainId.GÖRLI, '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.KOVAN] = /*#__PURE__*/new Token(exports.ChainId.KOVAN, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.FANTOM] = /*#__PURE__*/new Token(exports.ChainId.FANTOM, '0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83', 18, 'WFTM', 'Wrapped FTM'), _WETH[exports.ChainId.FANTOM_TESTNET] = /*#__PURE__*/new Token(exports.ChainId.FANTOM_TESTNET, '0xf1277d1Ed8AD466beddF92ef448A132661956621', 18, 'FTM', 'Wrapped FTM'), _WETH[exports.ChainId.MATIC] = /*#__PURE__*/new Token(exports.ChainId.MATIC, '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', 18, 'WMATIC', 'Wrapped Matic'), _WETH[exports.ChainId.MATIC_TESTNET] = /*#__PURE__*/new Token(exports.ChainId.MATIC_TESTNET, '0x5B67676a984807a212b1c59eBFc9B3568a474F0a', 18, 'WMATIC', 'Wrapped Matic'), _WETH[exports.ChainId.XDAI] = /*#__PURE__*/new Token(exports.ChainId.XDAI, '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d', 18, 'WXDAI', 'Wrapped xDai'), _WETH[exports.ChainId.BSC] = /*#__PURE__*/new Token(exports.ChainId.BSC, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 18, 'WBNB', 'Wrapped BNB'), _WETH[exports.ChainId.BSC_TESTNET] = /*#__PURE__*/new Token(exports.ChainId.BSC_TESTNET, '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd', 18, 'WBNB', 'Wrapped BNB'), _WETH[exports.ChainId.ARBITRUM] = /*#__PURE__*/new Token(exports.ChainId.ARBITRUM, '0xf8456e5e6A225C2C1D74D8C9a4cB2B1d5dc1153b', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.MOONBASE] = /*#__PURE__*/new Token(exports.ChainId.MOONBASE, '0xe73763DB808ecCDC0E36bC8E32510ED126910394', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.AVALANCHE] = /*#__PURE__*/new Token(exports.ChainId.AVALANCHE, '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7', 18, 'WAVAX', 'Wrapped AVAX'), _WETH[exports.ChainId.FUJI] = /*#__PURE__*/new Token(exports.ChainId.FUJI, '0xd00ae08403B9bbb9124bB305C09058E32C39A48c', 18, 'WAVAX', 'Wrapped AVAX'), _WETH[exports.ChainId.HECO] = /*#__PURE__*/new Token(exports.ChainId.HECO, '0x5545153CCFcA01fbd7Dd11C0b23ba694D9509A6F', 18, 'WHT', 'Wrapped HT'), _WETH[exports.ChainId.HECO_TESTNET] = /*#__PURE__*/new Token(exports.ChainId.HECO_TESTNET, '0x5B2DA6F42CA09C77D577a12BeaD0446148830687', 18, 'WHT', 'Wrapped HT'), _WETH[exports.ChainId.HARMONY] = /*#__PURE__*/new Token(exports.ChainId.HARMONY, '0xcF664087a5bB0237a0BAd6742852ec6c8d69A27a', 18, 'WONE', 'Wrapped ONE'), _WETH[exports.ChainId.HARMONY_TESTNET] = /*#__PURE__*/new Token(exports.ChainId.HARMONY_TESTNET, '0x7a2afac38517d512E55C0bCe3b6805c10a04D60F', 18, 'WONE', 'Wrapped ONE'), _WETH[exports.ChainId.OKEX] = /*#__PURE__*/new Token(exports.ChainId.OKEX, '0x8F8526dbfd6E38E3D8307702cA8469Bae6C56C15', 18, 'WOKT', 'Wrapped OKExChain'), _WETH[exports.ChainId.OKEX_TESTNET] = /*#__PURE__*/new Token(exports.ChainId.OKEX_TESTNET, '0x2219845942d28716c0F7C605765fABDcA1a7d9E0', 18, 'WOKT', 'Wrapped OKExChain'), _WETH);
 
 var _toSignificantRoundin, _toFixedRounding;
 var Decimal = /*#__PURE__*/toFormat(_Decimal);
 var Big = /*#__PURE__*/toFormat(_Big);
-var toSignificantRounding = (_toSignificantRoundin = {}, _toSignificantRoundin[Rounding.ROUND_DOWN] = Decimal.ROUND_DOWN, _toSignificantRoundin[Rounding.ROUND_HALF_UP] = Decimal.ROUND_HALF_UP, _toSignificantRoundin[Rounding.ROUND_UP] = Decimal.ROUND_UP, _toSignificantRoundin);
-var toFixedRounding = (_toFixedRounding = {}, _toFixedRounding[Rounding.ROUND_DOWN] = 0, _toFixedRounding[Rounding.ROUND_HALF_UP] = 1, _toFixedRounding[Rounding.ROUND_UP] = 3, _toFixedRounding);
+var toSignificantRounding = (_toSignificantRoundin = {}, _toSignificantRoundin[exports.Rounding.ROUND_DOWN] = Decimal.ROUND_DOWN, _toSignificantRoundin[exports.Rounding.ROUND_HALF_UP] = Decimal.ROUND_HALF_UP, _toSignificantRoundin[exports.Rounding.ROUND_UP] = Decimal.ROUND_UP, _toSignificantRoundin);
+var toFixedRounding = (_toFixedRounding = {}, _toFixedRounding[exports.Rounding.ROUND_DOWN] = 0, _toFixedRounding[exports.Rounding.ROUND_HALF_UP] = 1, _toFixedRounding[exports.Rounding.ROUND_UP] = 3, _toFixedRounding);
 var Fraction = /*#__PURE__*/function () {
   function Fraction(numerator, denominator) {
     if (denominator === void 0) {
@@ -601,11 +601,11 @@ var Fraction = /*#__PURE__*/function () {
     }
 
     if (rounding === void 0) {
-      rounding = Rounding.ROUND_HALF_UP;
+      rounding = exports.Rounding.ROUND_HALF_UP;
     }
 
-    !Number.isInteger(significantDigits) ? process.env.NODE_ENV !== "production" ? invariant(false, significantDigits + " is not an integer.") : invariant(false) : void 0;
-    !(significantDigits > 0) ? process.env.NODE_ENV !== "production" ? invariant(false, significantDigits + " is not positive.") : invariant(false) : void 0;
+    !Number.isInteger(significantDigits) ?  invariant(false, significantDigits + " is not an integer.")  : void 0;
+    !(significantDigits > 0) ?  invariant(false, significantDigits + " is not positive.")  : void 0;
     Decimal.set({
       precision: significantDigits + 1,
       rounding: toSignificantRounding[rounding]
@@ -622,11 +622,11 @@ var Fraction = /*#__PURE__*/function () {
     }
 
     if (rounding === void 0) {
-      rounding = Rounding.ROUND_HALF_UP;
+      rounding = exports.Rounding.ROUND_HALF_UP;
     }
 
-    !Number.isInteger(decimalPlaces) ? process.env.NODE_ENV !== "production" ? invariant(false, decimalPlaces + " is not an integer.") : invariant(false) : void 0;
-    !(decimalPlaces >= 0) ? process.env.NODE_ENV !== "production" ? invariant(false, decimalPlaces + " is negative.") : invariant(false) : void 0;
+    !Number.isInteger(decimalPlaces) ?  invariant(false, decimalPlaces + " is not an integer.")  : void 0;
+    !(decimalPlaces >= 0) ?  invariant(false, decimalPlaces + " is negative.")  : void 0;
     Big.DP = decimalPlaces;
     Big.RM = toFixedRounding[rounding];
     return new Big(this.numerator.toString()).div(this.denominator.toString()).toFormat(decimalPlaces, format);
@@ -675,12 +675,12 @@ var CurrencyAmount = /*#__PURE__*/function (_Fraction) {
   var _proto = CurrencyAmount.prototype;
 
   _proto.add = function add(other) {
-    !currencyEquals(this.currency, other.currency) ? process.env.NODE_ENV !== "production" ? invariant(false, 'TOKEN') : invariant(false) : void 0;
+    !currencyEquals(this.currency, other.currency) ?  invariant(false, 'TOKEN')  : void 0;
     return new CurrencyAmount(this.currency, JSBI.add(this.raw, other.raw));
   };
 
   _proto.subtract = function subtract(other) {
-    !currencyEquals(this.currency, other.currency) ? process.env.NODE_ENV !== "production" ? invariant(false, 'TOKEN') : invariant(false) : void 0;
+    !currencyEquals(this.currency, other.currency) ?  invariant(false, 'TOKEN')  : void 0;
     return new CurrencyAmount(this.currency, JSBI.subtract(this.raw, other.raw));
   };
 
@@ -690,7 +690,7 @@ var CurrencyAmount = /*#__PURE__*/function (_Fraction) {
     }
 
     if (rounding === void 0) {
-      rounding = Rounding.ROUND_DOWN;
+      rounding = exports.Rounding.ROUND_DOWN;
     }
 
     return _Fraction.prototype.toSignificant.call(this, significantDigits, format, rounding);
@@ -702,10 +702,10 @@ var CurrencyAmount = /*#__PURE__*/function (_Fraction) {
     }
 
     if (rounding === void 0) {
-      rounding = Rounding.ROUND_DOWN;
+      rounding = exports.Rounding.ROUND_DOWN;
     }
 
-    !(decimalPlaces <= this.currency.decimals) ? process.env.NODE_ENV !== "production" ? invariant(false, 'DECIMALS') : invariant(false) : void 0;
+    !(decimalPlaces <= this.currency.decimals) ?  invariant(false, 'DECIMALS')  : void 0;
     return _Fraction.prototype.toFixed.call(this, decimalPlaces, format, rounding);
   };
 
@@ -745,12 +745,12 @@ var TokenAmount = /*#__PURE__*/function (_CurrencyAmount) {
   var _proto = TokenAmount.prototype;
 
   _proto.add = function add(other) {
-    !this.token.equals(other.token) ? process.env.NODE_ENV !== "production" ? invariant(false, 'TOKEN') : invariant(false) : void 0;
+    !this.token.equals(other.token) ?  invariant(false, 'TOKEN')  : void 0;
     return new TokenAmount(this.token, JSBI.add(this.raw, other.raw));
   };
 
   _proto.subtract = function subtract(other) {
-    !this.token.equals(other.token) ? process.env.NODE_ENV !== "production" ? invariant(false, 'TOKEN') : invariant(false) : void 0;
+    !this.token.equals(other.token) ?  invariant(false, 'TOKEN')  : void 0;
     return new TokenAmount(this.token, JSBI.subtract(this.raw, other.raw));
   };
 
@@ -793,7 +793,7 @@ var Price = /*#__PURE__*/function (_Fraction) {
   };
 
   _proto.multiply = function multiply(other) {
-    !currencyEquals(this.quoteCurrency, other.baseCurrency) ? process.env.NODE_ENV !== "production" ? invariant(false, 'TOKEN') : invariant(false) : void 0;
+    !currencyEquals(this.quoteCurrency, other.baseCurrency) ?  invariant(false, 'TOKEN')  : void 0;
 
     var fraction = _Fraction.prototype.multiply.call(this, other);
 
@@ -802,7 +802,7 @@ var Price = /*#__PURE__*/function (_Fraction) {
   ;
 
   _proto.quote = function quote(currencyAmount) {
-    !currencyEquals(currencyAmount.currency, this.baseCurrency) ? process.env.NODE_ENV !== "production" ? invariant(false, 'TOKEN') : invariant(false) : void 0;
+    !currencyEquals(currencyAmount.currency, this.baseCurrency) ?  invariant(false, 'TOKEN')  : void 0;
 
     if (this.quoteCurrency instanceof Token) {
       return new TokenAmount(this.quoteCurrency, _Fraction.prototype.multiply.call(this, currencyAmount.raw).quotient);
@@ -859,7 +859,7 @@ var Pair = /*#__PURE__*/function () {
     if (((_PAIR_ADDRESS_CACHE = PAIR_ADDRESS_CACHE) === null || _PAIR_ADDRESS_CACHE === void 0 ? void 0 : (_PAIR_ADDRESS_CACHE$t = _PAIR_ADDRESS_CACHE[tokens[0].address]) === null || _PAIR_ADDRESS_CACHE$t === void 0 ? void 0 : _PAIR_ADDRESS_CACHE$t[tokens[1].address]) === undefined) {
       var _PAIR_ADDRESS_CACHE2, _extends2, _extends3;
 
-      PAIR_ADDRESS_CACHE = _extends({}, PAIR_ADDRESS_CACHE, (_extends3 = {}, _extends3[tokens[0].address] = _extends({}, (_PAIR_ADDRESS_CACHE2 = PAIR_ADDRESS_CACHE) === null || _PAIR_ADDRESS_CACHE2 === void 0 ? void 0 : _PAIR_ADDRESS_CACHE2[tokens[0].address], (_extends2 = {}, _extends2[tokens[1].address] = getCreate2Address(FACTORY_ADDRESS[tokenA.chainId], keccak256(['bytes'], [pack(['address', 'address'], [tokens[0].address, tokens[1].address])]), INIT_CODE_HASH), _extends2)), _extends3));
+      PAIR_ADDRESS_CACHE = _extends({}, PAIR_ADDRESS_CACHE, (_extends3 = {}, _extends3[tokens[0].address] = _extends({}, (_PAIR_ADDRESS_CACHE2 = PAIR_ADDRESS_CACHE) === null || _PAIR_ADDRESS_CACHE2 === void 0 ? void 0 : _PAIR_ADDRESS_CACHE2[tokens[0].address], (_extends2 = {}, _extends2[tokens[1].address] = address.getCreate2Address(FACTORY_ADDRESS[tokenA.chainId], solidity.keccak256(['bytes'], [solidity.pack(['address', 'address'], [tokens[0].address, tokens[1].address])]), INIT_CODE_HASH), _extends2)), _extends3));
     }
 
     return PAIR_ADDRESS_CACHE[tokens[0].address][tokens[1].address];
@@ -885,7 +885,7 @@ var Pair = /*#__PURE__*/function () {
    * @param token token to return price of
    */
   _proto.priceOf = function priceOf(token) {
-    !this.involvesToken(token) ? process.env.NODE_ENV !== "production" ? invariant(false, 'TOKEN') : invariant(false) : void 0;
+    !this.involvesToken(token) ?  invariant(false, 'TOKEN')  : void 0;
     return token.equals(this.token0) ? this.token0Price : this.token1Price;
   }
   /**
@@ -894,12 +894,12 @@ var Pair = /*#__PURE__*/function () {
   ;
 
   _proto.reserveOf = function reserveOf(token) {
-    !this.involvesToken(token) ? process.env.NODE_ENV !== "production" ? invariant(false, 'TOKEN') : invariant(false) : void 0;
+    !this.involvesToken(token) ?  invariant(false, 'TOKEN')  : void 0;
     return token.equals(this.token0) ? this.reserve0 : this.reserve1;
   };
 
   _proto.getOutputAmount = function getOutputAmount(inputAmount) {
-    !this.involvesToken(inputAmount.token) ? process.env.NODE_ENV !== "production" ? invariant(false, 'TOKEN') : invariant(false) : void 0;
+    !this.involvesToken(inputAmount.token) ?  invariant(false, 'TOKEN')  : void 0;
 
     if (JSBI.equal(this.reserve0.raw, ZERO) || JSBI.equal(this.reserve1.raw, ZERO)) {
       throw new InsufficientReservesError();
@@ -920,7 +920,7 @@ var Pair = /*#__PURE__*/function () {
   };
 
   _proto.getInputAmount = function getInputAmount(outputAmount) {
-    !this.involvesToken(outputAmount.token) ? process.env.NODE_ENV !== "production" ? invariant(false, 'TOKEN') : invariant(false) : void 0;
+    !this.involvesToken(outputAmount.token) ?  invariant(false, 'TOKEN')  : void 0;
 
     if (JSBI.equal(this.reserve0.raw, ZERO) || JSBI.equal(this.reserve1.raw, ZERO) || JSBI.greaterThanOrEqual(outputAmount.raw, this.reserveOf(outputAmount.token).raw)) {
       throw new InsufficientReservesError();
@@ -935,10 +935,10 @@ var Pair = /*#__PURE__*/function () {
   };
 
   _proto.getLiquidityMinted = function getLiquidityMinted(totalSupply, tokenAmountA, tokenAmountB) {
-    !totalSupply.token.equals(this.liquidityToken) ? process.env.NODE_ENV !== "production" ? invariant(false, 'LIQUIDITY') : invariant(false) : void 0;
+    !totalSupply.token.equals(this.liquidityToken) ?  invariant(false, 'LIQUIDITY')  : void 0;
     var tokenAmounts = tokenAmountA.token.sortsBefore(tokenAmountB.token) // does safety checks
     ? [tokenAmountA, tokenAmountB] : [tokenAmountB, tokenAmountA];
-    !(tokenAmounts[0].token.equals(this.token0) && tokenAmounts[1].token.equals(this.token1)) ? process.env.NODE_ENV !== "production" ? invariant(false, 'TOKEN') : invariant(false) : void 0;
+    !(tokenAmounts[0].token.equals(this.token0) && tokenAmounts[1].token.equals(this.token1)) ?  invariant(false, 'TOKEN')  : void 0;
     var liquidity;
 
     if (JSBI.equal(totalSupply.raw, ZERO)) {
@@ -961,16 +961,16 @@ var Pair = /*#__PURE__*/function () {
       feeOn = false;
     }
 
-    !this.involvesToken(token) ? process.env.NODE_ENV !== "production" ? invariant(false, 'TOKEN') : invariant(false) : void 0;
-    !totalSupply.token.equals(this.liquidityToken) ? process.env.NODE_ENV !== "production" ? invariant(false, 'TOTAL_SUPPLY') : invariant(false) : void 0;
-    !liquidity.token.equals(this.liquidityToken) ? process.env.NODE_ENV !== "production" ? invariant(false, 'LIQUIDITY') : invariant(false) : void 0;
-    !JSBI.lessThanOrEqual(liquidity.raw, totalSupply.raw) ? process.env.NODE_ENV !== "production" ? invariant(false, 'LIQUIDITY') : invariant(false) : void 0;
+    !this.involvesToken(token) ?  invariant(false, 'TOKEN')  : void 0;
+    !totalSupply.token.equals(this.liquidityToken) ?  invariant(false, 'TOTAL_SUPPLY')  : void 0;
+    !liquidity.token.equals(this.liquidityToken) ?  invariant(false, 'LIQUIDITY')  : void 0;
+    !JSBI.lessThanOrEqual(liquidity.raw, totalSupply.raw) ?  invariant(false, 'LIQUIDITY')  : void 0;
     var totalSupplyAdjusted;
 
     if (!feeOn) {
       totalSupplyAdjusted = totalSupply;
     } else {
-      !!!kLast ? process.env.NODE_ENV !== "production" ? invariant(false, 'K_LAST') : invariant(false) : void 0;
+      !!!kLast ?  invariant(false, 'K_LAST')  : void 0;
       var kLastParsed = parseBigintIsh(kLast);
 
       if (!JSBI.equal(kLastParsed, ZERO)) {
@@ -1052,7 +1052,7 @@ var PancakeV1Pair = /*#__PURE__*/function (_Pair) {
     if (((_PANCAKE_V1_PAIR_ADDR = PANCAKE_V1_PAIR_ADDRESS_CACHE) === null || _PANCAKE_V1_PAIR_ADDR === void 0 ? void 0 : (_PANCAKE_V1_PAIR_ADDR2 = _PANCAKE_V1_PAIR_ADDR[tokens[0].address]) === null || _PANCAKE_V1_PAIR_ADDR2 === void 0 ? void 0 : _PANCAKE_V1_PAIR_ADDR2[tokens[1].address]) === undefined) {
       var _PANCAKE_V1_PAIR_ADDR3, _extends4, _extends5;
 
-      PANCAKE_V1_PAIR_ADDRESS_CACHE = _extends({}, PANCAKE_V1_PAIR_ADDRESS_CACHE, (_extends5 = {}, _extends5[tokens[0].address] = _extends({}, (_PANCAKE_V1_PAIR_ADDR3 = PANCAKE_V1_PAIR_ADDRESS_CACHE) === null || _PANCAKE_V1_PAIR_ADDR3 === void 0 ? void 0 : _PANCAKE_V1_PAIR_ADDR3[tokens[0].address], (_extends4 = {}, _extends4[tokens[1].address] = getCreate2Address('0xBCfCcbde45cE874adCB698cC183deBcF17952812', keccak256(['bytes'], [pack(['address', 'address'], [tokens[0].address, tokens[1].address])]), '0xd0d4c4cd0848c93cb4fd1f498d7013ee6bfb25783ea21593d5834f5d250ece66'), _extends4)), _extends5));
+      PANCAKE_V1_PAIR_ADDRESS_CACHE = _extends({}, PANCAKE_V1_PAIR_ADDRESS_CACHE, (_extends5 = {}, _extends5[tokens[0].address] = _extends({}, (_PANCAKE_V1_PAIR_ADDR3 = PANCAKE_V1_PAIR_ADDRESS_CACHE) === null || _PANCAKE_V1_PAIR_ADDR3 === void 0 ? void 0 : _PANCAKE_V1_PAIR_ADDR3[tokens[0].address], (_extends4 = {}, _extends4[tokens[1].address] = address.getCreate2Address('0xBCfCcbde45cE874adCB698cC183deBcF17952812', solidity.keccak256(['bytes'], [solidity.pack(['address', 'address'], [tokens[0].address, tokens[1].address])]), '0xd0d4c4cd0848c93cb4fd1f498d7013ee6bfb25783ea21593d5834f5d250ece66'), _extends4)), _extends5));
     }
 
     return PANCAKE_V1_PAIR_ADDRESS_CACHE[tokens[0].address][tokens[1].address];
@@ -1076,7 +1076,7 @@ var PancakeV2Pair = /*#__PURE__*/function (_PancakeV1Pair) {
     if (((_PANCAKE_V2_PAIR_ADDR = PANCAKE_V2_PAIR_ADDRESS_CACHE) === null || _PANCAKE_V2_PAIR_ADDR === void 0 ? void 0 : (_PANCAKE_V2_PAIR_ADDR2 = _PANCAKE_V2_PAIR_ADDR[tokens[0].address]) === null || _PANCAKE_V2_PAIR_ADDR2 === void 0 ? void 0 : _PANCAKE_V2_PAIR_ADDR2[tokens[1].address]) === undefined) {
       var _PANCAKE_V2_PAIR_ADDR3, _extends6, _extends7;
 
-      PANCAKE_V2_PAIR_ADDRESS_CACHE = _extends({}, PANCAKE_V2_PAIR_ADDRESS_CACHE, (_extends7 = {}, _extends7[tokens[0].address] = _extends({}, (_PANCAKE_V2_PAIR_ADDR3 = PANCAKE_V2_PAIR_ADDRESS_CACHE) === null || _PANCAKE_V2_PAIR_ADDR3 === void 0 ? void 0 : _PANCAKE_V2_PAIR_ADDR3[tokens[0].address], (_extends6 = {}, _extends6[tokens[1].address] = getCreate2Address('0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73', keccak256(['bytes'], [pack(['address', 'address'], [tokens[0].address, tokens[1].address])]), '0x00fb7f630766e6a796048ea87d01acd3068e8ff67d078148a3fa3f4a84f69bd5'), _extends6)), _extends7));
+      PANCAKE_V2_PAIR_ADDRESS_CACHE = _extends({}, PANCAKE_V2_PAIR_ADDRESS_CACHE, (_extends7 = {}, _extends7[tokens[0].address] = _extends({}, (_PANCAKE_V2_PAIR_ADDR3 = PANCAKE_V2_PAIR_ADDRESS_CACHE) === null || _PANCAKE_V2_PAIR_ADDR3 === void 0 ? void 0 : _PANCAKE_V2_PAIR_ADDR3[tokens[0].address], (_extends6 = {}, _extends6[tokens[1].address] = address.getCreate2Address('0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73', solidity.keccak256(['bytes'], [solidity.pack(['address', 'address'], [tokens[0].address, tokens[1].address])]), '0x00fb7f630766e6a796048ea87d01acd3068e8ff67d078148a3fa3f4a84f69bd5'), _extends6)), _extends7));
     }
 
     return PANCAKE_V2_PAIR_ADDRESS_CACHE[tokens[0].address][tokens[1].address];
@@ -1087,12 +1087,12 @@ var PancakeV2Pair = /*#__PURE__*/function (_PancakeV1Pair) {
 
 var Route = /*#__PURE__*/function () {
   function Route(pairs, input, output) {
-    !(pairs.length > 0) ? process.env.NODE_ENV !== "production" ? invariant(false, 'PAIRS') : invariant(false) : void 0;
+    !(pairs.length > 0) ?  invariant(false, 'PAIRS')  : void 0;
     !pairs.every(function (pair) {
       return pair.chainId === pairs[0].chainId;
-    }) ? process.env.NODE_ENV !== "production" ? invariant(false, 'CHAIN_IDS') : invariant(false) : void 0;
-    !(input instanceof Token && pairs[0].involvesToken(input) || input === ETHER && pairs[0].involvesToken(WETH[pairs[0].chainId])) ? process.env.NODE_ENV !== "production" ? invariant(false, 'INPUT') : invariant(false) : void 0;
-    !(typeof output === 'undefined' || output instanceof Token && pairs[pairs.length - 1].involvesToken(output) || output === ETHER && pairs[pairs.length - 1].involvesToken(WETH[pairs[0].chainId])) ? process.env.NODE_ENV !== "production" ? invariant(false, 'OUTPUT') : invariant(false) : void 0;
+    }) ?  invariant(false, 'CHAIN_IDS')  : void 0;
+    !(input instanceof Token && pairs[0].involvesToken(input) || input === ETHER && pairs[0].involvesToken(WETH[pairs[0].chainId])) ?  invariant(false, 'INPUT')  : void 0;
+    !(typeof output === 'undefined' || output instanceof Token && pairs[pairs.length - 1].involvesToken(output) || output === ETHER && pairs[pairs.length - 1].involvesToken(WETH[pairs[0].chainId])) ?  invariant(false, 'OUTPUT')  : void 0;
     var path = [input instanceof Token ? input : WETH[pairs[0].chainId]];
 
     for (var _iterator = _createForOfIteratorHelperLoose(pairs.entries()), _step; !(_step = _iterator()).done;) {
@@ -1100,7 +1100,7 @@ var Route = /*#__PURE__*/function () {
           i = _step$value[0],
           pair = _step$value[1];
       var currentInput = path[i];
-      !(currentInput.equals(pair.token0) || currentInput.equals(pair.token1)) ? process.env.NODE_ENV !== "production" ? invariant(false, 'PATH') : invariant(false) : void 0;
+      !(currentInput.equals(pair.token0) || currentInput.equals(pair.token1)) ?  invariant(false, 'PATH')  : void 0;
 
       var _output = currentInput.equals(pair.token0) ? pair.token1 : pair.token0;
 
@@ -1172,8 +1172,8 @@ function computePriceImpact(midPrice, inputAmount, outputAmount) {
 
 function inputOutputComparator(a, b) {
   // must have same input and output token for comparison
-  !currencyEquals(a.inputAmount.currency, b.inputAmount.currency) ? process.env.NODE_ENV !== "production" ? invariant(false, 'INPUT_CURRENCY') : invariant(false) : void 0;
-  !currencyEquals(a.outputAmount.currency, b.outputAmount.currency) ? process.env.NODE_ENV !== "production" ? invariant(false, 'OUTPUT_CURRENCY') : invariant(false) : void 0;
+  !currencyEquals(a.inputAmount.currency, b.inputAmount.currency) ?  invariant(false, 'INPUT_CURRENCY')  : void 0;
+  !currencyEquals(a.outputAmount.currency, b.outputAmount.currency) ?  invariant(false, 'OUTPUT_CURRENCY')  : void 0;
 
   if (a.outputAmount.equalTo(b.outputAmount)) {
     if (a.inputAmount.equalTo(b.inputAmount)) {
@@ -1222,13 +1222,13 @@ function tradeComparator(a, b) {
 function wrappedAmount(currencyAmount, chainId) {
   if (currencyAmount instanceof TokenAmount) return currencyAmount;
   if (currencyAmount.currency === ETHER) return new TokenAmount(WETH[chainId], currencyAmount.raw);
-   process.env.NODE_ENV !== "production" ? invariant(false, 'CURRENCY') : invariant(false) ;
+    invariant(false, 'CURRENCY')  ;
 }
 
 function wrappedCurrency(currency, chainId) {
   if (currency instanceof Token) return currency;
   if (currency === ETHER) return WETH[chainId];
-   process.env.NODE_ENV !== "production" ? invariant(false, 'CURRENCY') : invariant(false) ;
+    invariant(false, 'CURRENCY')  ;
 }
 /**
  * Represents a trade executed against a list of pairs.
@@ -1241,8 +1241,8 @@ var Trade = /*#__PURE__*/function () {
     var amounts = new Array(route.path.length);
     var nextPairs = new Array(route.pairs.length);
 
-    if (tradeType === TradeType.EXACT_INPUT) {
-      !currencyEquals(amount.currency, route.input) ? process.env.NODE_ENV !== "production" ? invariant(false, 'INPUT') : invariant(false) : void 0;
+    if (tradeType === exports.TradeType.EXACT_INPUT) {
+      !currencyEquals(amount.currency, route.input) ?  invariant(false, 'INPUT')  : void 0;
       amounts[0] = wrappedAmount(amount, route.chainId);
 
       for (var i = 0; i < route.path.length - 1; i++) {
@@ -1256,7 +1256,7 @@ var Trade = /*#__PURE__*/function () {
         nextPairs[i] = nextPair;
       }
     } else {
-      !currencyEquals(amount.currency, route.output) ? process.env.NODE_ENV !== "production" ? invariant(false, 'OUTPUT') : invariant(false) : void 0;
+      !currencyEquals(amount.currency, route.output) ?  invariant(false, 'OUTPUT')  : void 0;
       amounts[amounts.length - 1] = wrappedAmount(amount, route.chainId);
 
       for (var _i = route.path.length - 1; _i > 0; _i--) {
@@ -1273,8 +1273,8 @@ var Trade = /*#__PURE__*/function () {
 
     this.route = route;
     this.tradeType = tradeType;
-    this.inputAmount = tradeType === TradeType.EXACT_INPUT ? amount : route.input === ETHER ? CurrencyAmount.ether(amounts[0].raw) : amounts[0];
-    this.outputAmount = tradeType === TradeType.EXACT_OUTPUT ? amount : route.output === ETHER ? CurrencyAmount.ether(amounts[amounts.length - 1].raw) : amounts[amounts.length - 1];
+    this.inputAmount = tradeType === exports.TradeType.EXACT_INPUT ? amount : route.input === ETHER ? CurrencyAmount.ether(amounts[0].raw) : amounts[0];
+    this.outputAmount = tradeType === exports.TradeType.EXACT_OUTPUT ? amount : route.output === ETHER ? CurrencyAmount.ether(amounts[amounts.length - 1].raw) : amounts[amounts.length - 1];
     this.executionPrice = new Price(this.inputAmount.currency, this.outputAmount.currency, this.inputAmount.raw, this.outputAmount.raw);
     this.nextMidPrice = Price.fromRoute(new Route(nextPairs, route.input));
     this.priceImpact = computePriceImpact(route.midPrice, this.inputAmount, this.outputAmount);
@@ -1287,7 +1287,7 @@ var Trade = /*#__PURE__*/function () {
 
 
   Trade.exactIn = function exactIn(route, amountIn) {
-    return new Trade(route, amountIn, TradeType.EXACT_INPUT);
+    return new Trade(route, amountIn, exports.TradeType.EXACT_INPUT);
   }
   /**
    * Constructs an exact out trade with the given amount out and route
@@ -1297,7 +1297,7 @@ var Trade = /*#__PURE__*/function () {
   ;
 
   Trade.exactOut = function exactOut(route, amountOut) {
-    return new Trade(route, amountOut, TradeType.EXACT_OUTPUT);
+    return new Trade(route, amountOut, exports.TradeType.EXACT_OUTPUT);
   }
   /**
    * Get the minimum amount that must be received from this trade for the given slippage tolerance
@@ -1308,9 +1308,9 @@ var Trade = /*#__PURE__*/function () {
   var _proto = Trade.prototype;
 
   _proto.minimumAmountOut = function minimumAmountOut(slippageTolerance) {
-    !!slippageTolerance.lessThan(ZERO) ? process.env.NODE_ENV !== "production" ? invariant(false, 'SLIPPAGE_TOLERANCE') : invariant(false) : void 0;
+    !!slippageTolerance.lessThan(ZERO) ?  invariant(false, 'SLIPPAGE_TOLERANCE')  : void 0;
 
-    if (this.tradeType === TradeType.EXACT_OUTPUT) {
+    if (this.tradeType === exports.TradeType.EXACT_OUTPUT) {
       return this.outputAmount;
     } else {
       var slippageAdjustedAmountOut = new Fraction(ONE).add(slippageTolerance).invert().multiply(this.outputAmount.raw).quotient;
@@ -1324,9 +1324,9 @@ var Trade = /*#__PURE__*/function () {
   ;
 
   _proto.maximumAmountIn = function maximumAmountIn(slippageTolerance) {
-    !!slippageTolerance.lessThan(ZERO) ? process.env.NODE_ENV !== "production" ? invariant(false, 'SLIPPAGE_TOLERANCE') : invariant(false) : void 0;
+    !!slippageTolerance.lessThan(ZERO) ?  invariant(false, 'SLIPPAGE_TOLERANCE')  : void 0;
 
-    if (this.tradeType === TradeType.EXACT_INPUT) {
+    if (this.tradeType === exports.TradeType.EXACT_INPUT) {
       return this.inputAmount;
     } else {
       var slippageAdjustedAmountIn = new Fraction(ONE).add(slippageTolerance).multiply(this.inputAmount.raw).quotient;
@@ -1369,11 +1369,11 @@ var Trade = /*#__PURE__*/function () {
       bestTrades = [];
     }
 
-    !(pairs.length > 0) ? process.env.NODE_ENV !== "production" ? invariant(false, 'PAIRS') : invariant(false) : void 0;
-    !(maxHops > 0) ? process.env.NODE_ENV !== "production" ? invariant(false, 'MAX_HOPS') : invariant(false) : void 0;
-    !(originalAmountIn === currencyAmountIn || currentPairs.length > 0) ? process.env.NODE_ENV !== "production" ? invariant(false, 'INVALID_RECURSION') : invariant(false) : void 0;
+    !(pairs.length > 0) ?  invariant(false, 'PAIRS')  : void 0;
+    !(maxHops > 0) ?  invariant(false, 'MAX_HOPS')  : void 0;
+    !(originalAmountIn === currencyAmountIn || currentPairs.length > 0) ?  invariant(false, 'INVALID_RECURSION')  : void 0;
     var chainId = currencyAmountIn instanceof TokenAmount ? currencyAmountIn.token.chainId : currencyOut instanceof Token ? currencyOut.chainId : undefined;
-    !(chainId !== undefined) ? process.env.NODE_ENV !== "production" ? invariant(false, 'CHAIN_ID') : invariant(false) : void 0;
+    !(chainId !== undefined) ?  invariant(false, 'CHAIN_ID')  : void 0;
     var amountIn = wrappedAmount(currencyAmountIn, chainId);
     var tokenOut = wrappedCurrency(currencyOut, chainId);
 
@@ -1401,7 +1401,7 @@ var Trade = /*#__PURE__*/function () {
 
 
       if (amountOut.token.equals(tokenOut)) {
-        sortedInsert(bestTrades, new Trade(new Route([].concat(currentPairs, [pair]), originalAmountIn.currency, currencyOut), originalAmountIn, TradeType.EXACT_INPUT), maxNumResults, tradeComparator);
+        sortedInsert(bestTrades, new Trade(new Route([].concat(currentPairs, [pair]), originalAmountIn.currency, currencyOut), originalAmountIn, exports.TradeType.EXACT_INPUT), maxNumResults, tradeComparator);
       } else if (maxHops > 1 && pairs.length > 1) {
         var pairsExcludingThisPair = pairs.slice(0, i).concat(pairs.slice(i + 1, pairs.length)); // otherwise, consider all the other paths that lead from this token as long as we have not exceeded maxHops
 
@@ -1451,11 +1451,11 @@ var Trade = /*#__PURE__*/function () {
       bestTrades = [];
     }
 
-    !(pairs.length > 0) ? process.env.NODE_ENV !== "production" ? invariant(false, 'PAIRS') : invariant(false) : void 0;
-    !(maxHops > 0) ? process.env.NODE_ENV !== "production" ? invariant(false, 'MAX_HOPS') : invariant(false) : void 0;
-    !(originalAmountOut === currencyAmountOut || currentPairs.length > 0) ? process.env.NODE_ENV !== "production" ? invariant(false, 'INVALID_RECURSION') : invariant(false) : void 0;
+    !(pairs.length > 0) ?  invariant(false, 'PAIRS')  : void 0;
+    !(maxHops > 0) ?  invariant(false, 'MAX_HOPS')  : void 0;
+    !(originalAmountOut === currencyAmountOut || currentPairs.length > 0) ?  invariant(false, 'INVALID_RECURSION')  : void 0;
     var chainId = currencyAmountOut instanceof TokenAmount ? currencyAmountOut.token.chainId : currencyIn instanceof Token ? currencyIn.chainId : undefined;
-    !(chainId !== undefined) ? process.env.NODE_ENV !== "production" ? invariant(false, 'CHAIN_ID') : invariant(false) : void 0;
+    !(chainId !== undefined) ?  invariant(false, 'CHAIN_ID')  : void 0;
     var amountOut = wrappedAmount(currencyAmountOut, chainId);
     var tokenIn = wrappedCurrency(currencyIn, chainId);
 
@@ -1483,7 +1483,7 @@ var Trade = /*#__PURE__*/function () {
 
 
       if (amountIn.token.equals(tokenIn)) {
-        sortedInsert(bestTrades, new Trade(new Route([pair].concat(currentPairs), currencyIn, originalAmountOut.currency), originalAmountOut, TradeType.EXACT_OUTPUT), maxNumResults, tradeComparator);
+        sortedInsert(bestTrades, new Trade(new Route([pair].concat(currentPairs), currencyIn, originalAmountOut.currency), originalAmountOut, exports.TradeType.EXACT_OUTPUT), maxNumResults, tradeComparator);
       } else if (maxHops > 1 && pairs.length > 1) {
         var pairsExcludingThisPair = pairs.slice(0, i).concat(pairs.slice(i + 1, pairs.length)); // otherwise, consider all the other paths that arrive at this token as long as we have not exceeded maxHops
 
@@ -1525,8 +1525,8 @@ var Router = /*#__PURE__*/function () {
     var etherIn = trade.inputAmount.currency === ETHER;
     var etherOut = trade.outputAmount.currency === ETHER; // the router does not support both ether in and out
 
-    !!(etherIn && etherOut) ? process.env.NODE_ENV !== "production" ? invariant(false, 'ETHER_IN_OUT') : invariant(false) : void 0;
-    !(!('ttl' in options) || options.ttl > 0) ? process.env.NODE_ENV !== "production" ? invariant(false, 'TTL') : invariant(false) : void 0;
+    !!(etherIn && etherOut) ?  invariant(false, 'ETHER_IN_OUT')  : void 0;
+    !(!('ttl' in options) || options.ttl > 0) ?  invariant(false, 'TTL')  : void 0;
     var to = validateAndParseAddress(options.recipient);
     var amountIn = toHex(trade.maximumAmountIn(options.allowedSlippage));
     var amountOut = toHex(trade.minimumAmountOut(options.allowedSlippage));
@@ -1540,7 +1540,7 @@ var Router = /*#__PURE__*/function () {
     var value;
 
     switch (trade.tradeType) {
-      case TradeType.EXACT_INPUT:
+      case exports.TradeType.EXACT_INPUT:
         if (etherIn) {
           methodName = useFeeOnTransfer ? 'swapExactETHForTokensSupportingFeeOnTransferTokens' : 'swapExactETHForTokens'; // (uint amountOutMin, address[] calldata path, address to, uint deadline)
 
@@ -1560,8 +1560,8 @@ var Router = /*#__PURE__*/function () {
 
         break;
 
-      case TradeType.EXACT_OUTPUT:
-        !!useFeeOnTransfer ? process.env.NODE_ENV !== "production" ? invariant(false, 'EXACT_OUT_FOT') : invariant(false) : void 0;
+      case exports.TradeType.EXACT_OUTPUT:
+        !!useFeeOnTransfer ?  invariant(false, 'EXACT_OUT_FOT')  : void 0;
 
         if (etherIn) {
           methodName = 'swapETHForExactTokens'; // (uint amountOut, address[] calldata path, address to, uint deadline)
@@ -1631,7 +1631,7 @@ var ERC20 = [
 ];
 
 var _TOKEN_DECIMALS_CACHE;
-var TOKEN_DECIMALS_CACHE = (_TOKEN_DECIMALS_CACHE = {}, _TOKEN_DECIMALS_CACHE[ChainId.MAINNET] = {
+var TOKEN_DECIMALS_CACHE = (_TOKEN_DECIMALS_CACHE = {}, _TOKEN_DECIMALS_CACHE[exports.ChainId.MAINNET] = {
   '0xE0B7927c4aF23765Cb51314A0E0521A9645F0E2A': 9 // DGD
 
 }, _TOKEN_DECIMALS_CACHE);
@@ -1662,11 +1662,11 @@ var Fetcher = /*#__PURE__*/function () {
         return new Token(chainId, address, parsedDecimals, symbol, name);
       };
 
-      if (provider === undefined) provider = getDefaultProvider(getNetwork(chainId));
+      if (provider === undefined) provider = providers.getDefaultProvider(networks.getNetwork(chainId));
 
       var _temp4 = typeof ((_TOKEN_DECIMALS_CACHE2 = TOKEN_DECIMALS_CACHE) === null || _TOKEN_DECIMALS_CACHE2 === void 0 ? void 0 : (_TOKEN_DECIMALS_CACHE3 = _TOKEN_DECIMALS_CACHE2[chainId]) === null || _TOKEN_DECIMALS_CACHE3 === void 0 ? void 0 : _TOKEN_DECIMALS_CACHE3[address]) === 'number';
 
-      return Promise.resolve(_temp4 ? _temp3(TOKEN_DECIMALS_CACHE[chainId][address]) : Promise.resolve(new Contract(address, ERC20, provider).decimals().then(function (decimals) {
+      return Promise.resolve(_temp4 ? _temp3(TOKEN_DECIMALS_CACHE[chainId][address]) : Promise.resolve(new contracts.Contract(address, ERC20, provider).decimals().then(function (decimals) {
         var _TOKEN_DECIMALS_CACHE4, _extends2, _extends3;
 
         TOKEN_DECIMALS_CACHE = _extends({}, TOKEN_DECIMALS_CACHE, (_extends3 = {}, _extends3[chainId] = _extends({}, (_TOKEN_DECIMALS_CACHE4 = TOKEN_DECIMALS_CACHE) === null || _TOKEN_DECIMALS_CACHE4 === void 0 ? void 0 : _TOKEN_DECIMALS_CACHE4[chainId], (_extends2 = {}, _extends2[address] = decimals, _extends2)), _extends3));
@@ -1686,10 +1686,10 @@ var Fetcher = /*#__PURE__*/function () {
 
   Fetcher.fetchPairData = function fetchPairData(tokenA, tokenB, provider) {
     try {
-      if (provider === undefined) provider = getDefaultProvider(getNetwork(tokenA.chainId));
-      !(tokenA.chainId === tokenB.chainId) ? process.env.NODE_ENV !== "production" ? invariant(false, 'CHAIN_ID') : invariant(false) : void 0;
+      if (provider === undefined) provider = providers.getDefaultProvider(networks.getNetwork(tokenA.chainId));
+      !(tokenA.chainId === tokenB.chainId) ? "development" !== "production" ? invariant(false, 'CHAIN_ID') : invariant(false) : void 0;
       var address = Pair.getAddress(tokenA, tokenB);
-      return Promise.resolve(new Contract(address, IUniswapV2Pair.abi, provider).getReserves()).then(function (_ref) {
+      return Promise.resolve(new contracts.Contract(address, IUniswapV2Pair.abi, provider).getReserves()).then(function (_ref) {
         var reserves0 = _ref[0],
             reserves1 = _ref[1];
         var balances = tokenA.sortsBefore(tokenB) ? [reserves0, reserves1] : [reserves1, reserves0];
@@ -1703,5 +1703,35 @@ var Fetcher = /*#__PURE__*/function () {
   return Fetcher;
 }();
 
-export { BAR_ADDRESS, ChainId, Currency, CurrencyAmount, ETHER, FACTORY_ADDRESS, Fetcher, Fraction, INIT_CODE_HASH, InsufficientInputAmountError, InsufficientReservesError, MAKER_ADDRESS, MASTERCHEF_ADDRESS, MINIMUM_LIQUIDITY, Pair, PancakeV1Pair, PancakeV2Pair, Percent, Price, ROUTER_ADDRESS, Rounding, Route, Router, SUSHI_ADDRESS, TIMELOCK_ADDRESS, Token, TokenAmount, Trade, TradeType, WETH, currencyEquals, inputOutputComparator, tradeComparator };
-//# sourceMappingURL=sdk.esm.js.map
+exports.JSBI = JSBI;
+exports.BAR_ADDRESS = BAR_ADDRESS;
+exports.Currency = Currency;
+exports.CurrencyAmount = CurrencyAmount;
+exports.ETHER = ETHER;
+exports.FACTORY_ADDRESS = FACTORY_ADDRESS;
+exports.Fetcher = Fetcher;
+exports.Fraction = Fraction;
+exports.INIT_CODE_HASH = INIT_CODE_HASH;
+exports.InsufficientInputAmountError = InsufficientInputAmountError;
+exports.InsufficientReservesError = InsufficientReservesError;
+exports.MAKER_ADDRESS = MAKER_ADDRESS;
+exports.MASTERCHEF_ADDRESS = MASTERCHEF_ADDRESS;
+exports.MINIMUM_LIQUIDITY = MINIMUM_LIQUIDITY;
+exports.Pair = Pair;
+exports.PancakeV1Pair = PancakeV1Pair;
+exports.PancakeV2Pair = PancakeV2Pair;
+exports.Percent = Percent;
+exports.Price = Price;
+exports.ROUTER_ADDRESS = ROUTER_ADDRESS;
+exports.Route = Route;
+exports.Router = Router;
+exports.SUSHI_ADDRESS = SUSHI_ADDRESS;
+exports.TIMELOCK_ADDRESS = TIMELOCK_ADDRESS;
+exports.Token = Token;
+exports.TokenAmount = TokenAmount;
+exports.Trade = Trade;
+exports.WETH = WETH;
+exports.currencyEquals = currencyEquals;
+exports.inputOutputComparator = inputOutputComparator;
+exports.tradeComparator = tradeComparator;
+//# sourceMappingURL=bao-sdk.cjs.development.js.map

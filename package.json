@@ -1,8 +1,8 @@
 {
-  "name": "@sushiswap/sdk",
+  "name": "bao-sdk",
   "license": "MIT",
   "version": "5.0.0-canary.7",
-  "description": "🛠 An SDK for building applications on top of Sushiswap.",
+  "description": "🛠 An SDK for building applications on top of BAO and its franchises.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
@@ -12,7 +12,11 @@
   "keywords": [
     "uniswap",
     "sushiswap",
-    "ethereum"
+    "ethereum",
+    "bao",
+    "bsc",
+    "xdai",
+    "polygon"
   ],
   "module": "dist/sdk.esm.js",
   "scripts": {
